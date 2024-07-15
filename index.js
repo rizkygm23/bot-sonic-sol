@@ -19,7 +19,7 @@ async function sendSol(fromKeypair, toPublicKey, amount) {
     SystemProgram.transfer({
       fromPubkey: fromKeypair.publicKey,
       toPubkey: toPublicKey,
-      lamports: amount * LAMPORTS_PER_SOL,
+      lamports: amount,
     })
   )
 
@@ -57,13 +57,27 @@ async function delay(ms) {
   const randomAddresses = generateRandomAddresses(100)
   console.log('Generated 100 random addresses:', randomAddresses)
 
-  const amountToSend = 0.001
+  
+
+  
+
+
   const delayBetweenRequests = 5000
 
   for (const address of randomAddresses) {
     const toPublicKey = new PublicKey(address)
     try {
-      await sendSol(fromKeypair, toPublicKey, amountToSend)
+      const min = 0.001;
+      const max = 0.005;
+      
+      
+      const amountToSend = Math.random() * (max - min) + min;
+      const lamportsPerSOL = BigInt(1_000_000_000);
+      const amountToSendLamports = BigInt(Math.round(amountToSend * Number(lamportsPerSOL))); 
+
+      console.log('Amount to Send (SOL):', amountToSend)
+      console.log('Amount to Send (Lamports):', amountToSendLamports)
+      await sendSol(fromKeypair, toPublicKey, amountToSendLamports)
       console.log(`Successfully sent ${amountToSend} SOL to ${address}`)
     } catch (error) {
       console.error(`Failed to send SOL to ${address}:`, error)
