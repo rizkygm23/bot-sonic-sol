@@ -54,7 +54,7 @@ async function delay(ms) {
   }
   const fromKeypair = await getKeypairFromSeed(seedPhrase)
 
-  const randomAddresses = generateRandomAddresses(100)
+  const randomAddresses = generateRandomAddresses(1000)
   console.log('Generated 100 random addresses:', randomAddresses)
 
   
@@ -62,15 +62,13 @@ async function delay(ms) {
   
 
 
-  const delayBetweenRequests = 5000
+  const delayBetweenRequests = 1000
 
   for (const address of randomAddresses) {
     const toPublicKey = new PublicKey(address)
     try {
       const min = 0.001;
-      const max = 0.005;
-      
-      
+      const max = 0.002;
       const amountToSend = Math.random() * (max - min) + min;
       const lamportsPerSOL = BigInt(1_000_000_000);
       const amountToSendLamports = BigInt(Math.round(amountToSend * Number(lamportsPerSOL))); 
